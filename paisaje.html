@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paisaje</title>
+    <style>
+        canvas{
+            display: block;
+            margin: auto;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="500" style="border:5px solid grey"></canvas>
+    <script>
+        const c = document.getElementById("myCanvas");
+        const ctx = c.getContext("2d");
+
+        function getRandomBetween(min, max) {
+           return Math.floor(Math.random() * (max - min) + min);
+        }
+        //Nube = 78
+        //2 
+        //Hojas = 72
+        //1
+        //Tronco = 84
+        //3
+        //Ellipse = 69
+        //sol = 83
+
+        var color;
+        var figura;
+        var pressed = false;
+        document.addEventListener("keydown", (e)=>{
+            console.log(e);
+            switch (e.keyCode) {
+                case 78:
+                    //color blanco nube
+                    color = "rgba(255, 255, 255, 0.5)";
+                    figura = 2;
+                    break;
+                case 72:
+                    //color verde hoja
+                    color = "rgba(45, 84, 44, 0.8)";
+                    figura = 2;
+                    break;
+                case 84:
+                    //color café tronco
+                    color = "rgba(70, 45, 20, 0.8)";
+                    figura = 1;
+                    break;
+                case 69:
+                    //color verde pasto
+                    color = "rgba(53, 104, 45, 0.8)";
+                    figura = 3;
+                    break;
+                case 83:
+                    //color amarillo
+                    color = "rgb(255, 255, 0)";
+                    figura = 4;
+            }
+        })
+        
+        c.addEventListener("click", (e)=>{
+            ctx.fillStyle = color;
+
+            switch (figura) {
+                case 1:
+                    estela();
+                    break;
+            
+                case 2:
+                    var numRand = getRandomBetween(40, 50);
+                    ctx.beginPath();
+                    ctx.arc(e.offsetX, e.offsetY, numRand, 0, 2*Math.PI);
+                    ctx.fill();
+                    ctx.closePath();
+                    break;
+                case 3:
+                    var numRand = getRandomBetween(30, 40);
+                    var numRand2 = getRandomBetween(70, 100);
+                    ctx.beginPath();
+                    ctx.ellipse(e.offsetX, e.offsetY, numRand, numRand2, Math.PI / 2, 0, 2 * Math.PI);
+                    ctx.fill();
+                    break;
+                case 4:
+                    estela();
+                    var numRand = getRandomBetween(30, 40);
+                    ctx.beginPath();
+                    ctx.arc(e.offsetX, e.offsetY, numRand, 0, 2*Math.PI);
+                    ctx.fill();
+                    ctx.closePath();
+                    break;
+            }
+            
+        })
+
+        function estela(){
+            c.addEventListener("mousemove", (e)=>{
+                if(pressed){
+                    ctx.beginPath();
+                    ctx.arc(e.offsetX, e.offsetY , 10, 0, 2*Math.PI);
+                    ctx.fill();
+                }
+            })
+    
+            c.addEventListener("mousedown", (e)=>{
+                pressed = true;
+            })
+    
+            c.addEventListener("mouseup", (e)=>{
+                pressed = false;
+            })
+        }
+
+    
+    </script>
+</body>
+</html>
